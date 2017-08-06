@@ -1,4 +1,7 @@
 # telegram-bot-microframework-perl
+
+## Now this is just a mess, DON'T USE THIS
+
 Wrapping BotAPI to simplify new bots development
 
 Uses AnyEvent for asynchronous networking.
