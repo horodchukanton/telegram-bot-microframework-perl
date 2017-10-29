@@ -1,6 +1,6 @@
 # telegram-bot-microframework-perl
 
-## Now this is just a mess, DON'T USE THIS
+## Now this is just a mess, DON'T USE IT
 
 Wrapping BotAPI to simplify new bots development
 
