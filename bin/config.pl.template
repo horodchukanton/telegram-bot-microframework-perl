@@ -1,0 +1,10 @@
+our %config = (
+
+    # Talk to @BotFather to get it
+    token            => 'PLACE_YOUR_TOKEN_HERE',
+
+    refresh_interval => 10,
+    authorization => ''
+);
+
+1;

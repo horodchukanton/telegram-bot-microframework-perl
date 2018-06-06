@@ -1,10 +1,10 @@
-package Abills::Backend::Plugin::Telegram::Operation;
+package Plugin::Telegram::Operation;
 use strict;
 use warnings FATAL => 'all';
 
 
 #**********************************************************
-=head2 new($attr) - constructor for Abills::Backend::Plugin::Telegram::Operation
+=head2 new($attr) - constructor for Plugin::Telegram::Operation
 
   Arguments:
     $attr - hash_ref
@@ -16,21 +16,21 @@ use warnings FATAL => 'all';
       ON_FINISH  - coderef
 
   Returns:
-    $self - Abills::Backend::Plugin::Telegram::Operation instance
+    $self - Plugin::Telegram::Operation instance
     
 =cut
 #**********************************************************
 sub new {
-  my $class = shift;
-  my ($attr) = @_;
-  
-  my $self = \%{$attr};
-  
-  return 0 unless ( $attr->{CHAT_ID} || $attr->{ON_MESSAGE} );
-  
-  bless($self, $class);
-  
-  return $self;
+    my $class = shift;
+    my ( $attr ) = @_;
+
+    my $self = \%{$attr};
+
+    return 0 unless ($attr->{CHAT_ID} || $attr->{ON_MESSAGE});
+
+    bless($self, $class);
+
+    return $self;
 }
 
 #**********************************************************
@@ -45,13 +45,13 @@ sub new {
 =cut
 #**********************************************************
 sub start {
-  my ($self) = @_;
-  
-  if ( $self->{ON_START} ) {
-    $self->{ON_START}->($self);
-  }
-  
-  return 1;
+    my ( $self ) = @_;
+
+    if ($self->{ON_START}) {
+        $self->{ON_START}->($self);
+    }
+
+    return 1;
 }
 
 #**********************************************************
@@ -66,8 +66,8 @@ sub start {
 =cut
 #**********************************************************
 sub on_message {
-  my ($self, $message) = @_;
-  return $self->{ON_MESSAGE}->($self, $message);
+    my ( $self, $message ) = @_;
+    return $self->{ON_MESSAGE}->($self, $message);
 }
 
 #**********************************************************
@@ -76,13 +76,13 @@ sub on_message {
 =cut
 #**********************************************************
 sub on_finish {
-  my ($self) = @_;
-  
-  if ( $self->{ON_FINISH} ) {
-    $self->{ON_FINISH}->($self);
-  }
-  
-  return 1;
+    my ( $self ) = @_;
+
+    if ($self->{ON_FINISH}) {
+        $self->{ON_FINISH}->($self);
+    }
+
+    return 1;
 }
 
 1;
