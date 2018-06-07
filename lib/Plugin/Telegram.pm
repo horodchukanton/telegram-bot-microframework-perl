@@ -69,11 +69,11 @@ sub start {
     $self->{debug} = $self->{conf}->{TELEGRAM_API_DEBUG} || $debug;
 
     $Bot_API = Plugin::Telegram::BotAPI->new({
-        token => $self->{conf}{token}
+        token => $self->{conf}->{token}
     });
 
     # TODO: allow to set custom object for authorization
-#    $self->load_clients();
+    #    $self->load_clients();
 
     $self->set_timer($self->{conf}->{interval});
 
@@ -92,8 +92,6 @@ sub set_timer {
         after    => 0,
         interval => $interval,
         cb       => sub {
-            print qq/"LOG_ERROR", "[ Telegram ]", "Request"/;
-
             eval {
                 $Bot_API->getUpdates(
                     {
@@ -191,16 +189,16 @@ sub process_updates {
 
                 print qq/"LOG_NOTICE", " Telegram ", "Auth  for $type $sid"/;
 
-                if ($self->authenticate($type, $sid, $chat_id)) {
+                if (! $self->{conf}->{authorization} || $self->authenticate($type, $sid, $chat_id)) {
                     print qq/"LOG_DEBUG", " Telegram ", "Authorized $type $sid"/;
-                    $self->send_response("You've been registered", $chat_id);
+                    $self->send_response("Hello, you've been registered", $chat_id);
                     next;
                 }
             }
 
             print qq/"LOG_INFO", " Telegram ", "Auth failed  for $message->{from}->{username} ($chat_id)"/;
             $self->send_response("Sorry, can't authorize you. Please log in to web interface and try again", $chat_id);
-            return 0;
+            next;
         }
 
         my $authorized = $self->is_authenticated($chat_id);
@@ -229,10 +227,10 @@ sub process_updates {
             }
 
             if (defined $self->{cb}->{$message->{text}}) {
-                $self->{cb}->{$message->{text}}->($message);
+                $self->{cb}->{$message->{text}}->($message, $chat_id);
             }
-            else {
-                $self->{cb}->{default}->($message);
+            elsif (exists $self->{cb}->{default}) {
+                $self->{cb}->{default}->($message, $chat_id);
             }
 
         }
@@ -299,6 +297,8 @@ sub process_callback_query {
 sub is_authenticated {
     my ( $self, $chat_id ) = @_;
 
+    return 1 if (! $self->{conf}->{authorization});
+
     return - 1 if (exists $user_for_chat_id{$chat_id});
     return 1 if (exists $admin_for_chat_id{$chat_id});
 
@@ -306,7 +306,7 @@ sub is_authenticated {
 }
 
 #**********************************************************
-=head2 send_response($text) - sends text to admin
+=head2 send_response($text, $chat_id) - sends text to admin
 
   Arguments:
     $text -
