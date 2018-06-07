@@ -52,8 +52,6 @@ sub propose {
     my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
         localtime(time);
 
-    $wday = 5;
-
     # Friday has special menu
     my $today_menu = ( $wday == 5 ) ? \%friday_restaurants : \%restaurants;
 
