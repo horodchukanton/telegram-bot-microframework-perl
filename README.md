@@ -1,6 +1,13 @@
 # telegram-bot-microframework-perl
 
-## Now this is just a mess, DON'T USE IT
+What it allows to do:
+ - Respond to predeclared messages (can be defined by patterns)
+ - Build menus with few messages in a row (see Plugin::Telegram::Operation)
+ 
+What it should do:
+ - Inline queries support
+ - Authentication
+ 
 
 Wrapping BotAPI to simplify new bots development
 
