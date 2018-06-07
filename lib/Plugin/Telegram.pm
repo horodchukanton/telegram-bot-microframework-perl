@@ -2,6 +2,8 @@ package Plugin::Telegram;
 use strict;
 use warnings FATAL => 'all';
 
+use Encode qw/encode/;
+
 use AnyEvent;
 use AnyEvent::Handle;
 use AnyEvent::Socket;
@@ -223,7 +225,16 @@ sub process_updates {
                     delete $operation_lock_on_chat_id{$chat_id};
                 }
 
-                return 1;
+                next;
+            }
+
+            # Allow to use regexps in callback
+
+            foreach my $cb_name (grep {$_ =~ /^~/} keys %{$self->{cb}}) {
+                my $pattern = substr($cb_name, 1);
+                if ($message->{text} =~ /$pattern/) {
+                    $self->{cb}->{"~$pattern"}->($message, $chat_id);
+                }
             }
 
             if (defined $self->{cb}->{$message->{text}}) {
@@ -326,7 +337,7 @@ sub send_response {
 
     $Bot_API->sendMessage({
         chat_id => $chat_id,
-        text    => $text,
+        text    => encode('utf-8', $text),
 
         # Object: ReplyKeyboardMarkup
         #    reply_markup => {
