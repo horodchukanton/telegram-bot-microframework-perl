@@ -102,7 +102,7 @@ sub set_timer {
                     },
                     sub {
                         my $updates = shift;
-                        if ($updates->{ok} && scalar(@{$updates->{result}})) {
+                        if ($updates && $updates->{ok} && scalar(@{$updates->{result}})) {
                             $self->process_updates(@{$updates->{result}});
                         }
                     }
