@@ -24,7 +24,7 @@ $bot->start();
 
 my %restaurants = (
     'https://vilki-palki.od.ua/' => 1,
-    'https://pizza.od.ua/'       => 1,
+    #'https://pizza.od.ua/'       => 1, # Site is broken
     'http://alpina.od.ua/'       => 1,
     'https://wok.od.ua/'         => 1,
     'https://didrih.com/'        => sub {
