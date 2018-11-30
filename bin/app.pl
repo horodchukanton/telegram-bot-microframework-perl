@@ -24,9 +24,10 @@ $bot->start();
 
 my %restaurants = (
     'https://vilki-palki.od.ua/' => 1,
-    'https://pizza.od.ua/'       => 1,
+    'https://www.malinaodessa.com/' => 1,
+#    'https://pizza.od.ua/'       => 1,
     'http://alpina.od.ua/'       => 1,
-    'https://wok.od.ua/'         => 1,
+#    'https://wok.od.ua/'         => 1,
     'https://didrih.com/'        => sub {
         my ( $sec, $min, $hour ) = localtime();
         if ($hour >= 12) {
@@ -82,6 +83,7 @@ sub propose {
 }
 
 $bot->add_callback('/food_selector', \&propose);
+$bot->add_callback('~/food_selector.*', \&propose);
 
 $bot->add_callback('~какой.*день\??', sub {
     my ( $message, $chat_id ) = @_;
