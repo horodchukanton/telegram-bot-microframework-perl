@@ -4,7 +4,7 @@ What it allows to do:
  - Respond to predeclared messages (can be defined by patterns)
  - Build menus with few messages in a row (see Plugin::Telegram::Operation)
  
-What it should do:
+To do:
  - Inline queries support
  - Authentication
  
